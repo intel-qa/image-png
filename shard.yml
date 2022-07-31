@@ -1,8 +1,12 @@
-name: image-png
+name: image_png
 version: 0.1.0
 
 authors:
   - Gaurav Shah <gauravshah.89@gmail.com>
+
+dependencies:
+  image_carrier:
+    github: intel-qa/image-carrier
 
 crystal: 1.3.2
 
