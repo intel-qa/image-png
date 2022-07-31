@@ -33,6 +33,14 @@ module Image::PNG
     grayscale_alpha: 4_u8,
   }
 
+  COLOR_TYPES = {
+    0 => :grayscale,
+    2 => :rgb,
+    3 => :palette,
+    4 => :grayscale_alpha,
+    6 => :rgb_alpha,
+  }
+
   def valid?(path : String)
     begin
       File.open path, "rb" do |file|
@@ -64,6 +72,10 @@ module Image::PNG
     }
   end
 
+  def color_type(path : String)
+    COLOR_TYPES[metadata(path)[:color_type]]
+  end
+
   def data(path : String)
     File.open path, "rb" do |file|
       IR.new.tap { |ir|
@@ -80,21 +92,27 @@ module Image::PNG
     end
   end
 
-  def read(io : IO)
-    IR.new.try do |ir|
+  def ir(io : IO)
+    IR.new.tap do |ir|
       Datastream.read(io).chunks.each {|chunk| ir.parse_chunk chunk}
-
-      grid = case ir.color_type
-      when 0 then GridFactory(G).new(ir, DECODERS[:grayscale]).grid
-      when 4 then GridFactory(GA).new(ir, DECODERS[:grayscale_alpha]).grid
-      when 2 then GridFactory(RGB).new(ir, DECODERS[:rgb]).grid
-      when 6 then GridFactory(RGBA).new(ir, DECODERS[:rgb_alpha]).grid
-      when 3 then GridFactory(RGBA).new(ir, DECODERS[:palette]).grid
-      end
-
-      raise "Unknown color type" if grid.nil?
-      grid
     end
+  end
+
+  def grid(ir : IR)
+    grid = case ir.color_type
+    when 0 then GridFactory(G).new(ir, DECODERS[:grayscale]).grid
+    when 4 then GridFactory(GA).new(ir, DECODERS[:grayscale_alpha]).grid
+    when 2 then GridFactory(RGB).new(ir, DECODERS[:rgb]).grid
+    when 6 then GridFactory(RGBA).new(ir, DECODERS[:rgb_alpha]).grid
+    when 3 then GridFactory(RGBA).new(ir, DECODERS[:palette]).grid
+    end
+
+    raise "Unknown color type" if grid.nil?
+    grid
+  end
+
+  def read(io : IO)
+    grid ir(io)
   end
 
   def write(grid, path : String, bit_depth)
