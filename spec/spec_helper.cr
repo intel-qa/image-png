@@ -1,2 +1,2 @@
 require "spec"
-require "../src/image-png"
+require "../src/image_png"
