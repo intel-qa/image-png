@@ -1,7 +1,7 @@
 require "digest/crc32"
 require "./helper"
 
-module Image::PNG
+module IntelQA::PNG
   class Chunk
     property type : String
     property data : Bytes

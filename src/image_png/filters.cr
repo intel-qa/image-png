@@ -1,4 +1,4 @@
-module Image::PNG
+module IntelQA::PNG
   module Filter
     extend self
 

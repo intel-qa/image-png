@@ -6,10 +6,10 @@ require "./image_png/scanline"
 require "./image_png/filters"
 require "./image_png/crc_io"
 
-include Image::Carrier
+include IntelQA::Carrier
 
-# TODO: Write documentation for `Image::Png`
-module Image::PNG
+# TODO: Write documentation for `IntelQA::Png`
+module IntelQA::PNG
   VERSION = "0.1.0"
 
   extend self
@@ -44,7 +44,7 @@ module Image::PNG
   def valid?(path : String)
     begin
       File.open path, "rb" do |file|
-        file.read_bytes(UInt64, IO::ByteFormat::BigEndian) == Image::PNG::HEADER
+        file.read_bytes(UInt64, IO::ByteFormat::BigEndian) == IntelQA::PNG::HEADER
       end
     rescue IO::EOFError
       false
@@ -88,7 +88,7 @@ module Image::PNG
 
   def read(path : String)
     File.open path, "rb" do |file|
-      read(file)
+      read file
     end
   end
 

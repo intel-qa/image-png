@@ -2,7 +2,7 @@ require "compress/zlib"
 require "./helper"
 require "./chunk"
 
-module Image::PNG
+module IntelQA::PNG
   class Datastream
     property chunks : Array(Chunk)
 
@@ -16,7 +16,7 @@ module Image::PNG
     end
 
     def self.read(io : IO)
-      unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == Image::PNG::HEADER
+      unless io.read_bytes(UInt64, IO::ByteFormat::BigEndian) == IntelQA::PNG::HEADER
         raise "Not a png file"
       end
 

@@ -3,7 +3,7 @@ require "./datastream"
 require "./filters"
 require "./scanline"
 
-module Image::PNG
+module IntelQA::PNG
   class IR
     # { name, valid bit depths, "fields" per pixel }
     COLOR_TYPES = {

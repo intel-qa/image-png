@@ -1,10 +1,10 @@
 require "./spec_helper"
 
-include Image::PNG
+include IntelQA::PNG
 
 BASIC_FORMATS_DIR = "./spec/data/basic_formats"
 
-describe Image::PNG do
+describe IntelQA::PNG do
   describe ".valid?" do
     it "informs if the given file is a valid png image" do
       valid?("./spec/data/text_files/short.txt").should be_false

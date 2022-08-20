@@ -1,4 +1,4 @@
-module Image::PNG
+module IntelQA::PNG
   class GridFactory(T)
     getter grid : Grid(T)
 
